@@ -1,0 +1,8 @@
+ignore:
+  - "demo/*"
+  - "tests/**/*"
+  - "_builds/**/*"
+  - "tools/**/*"
+  - ".github/**/*"
+  - "scripts/**/*"
+  - "docs/**/*"

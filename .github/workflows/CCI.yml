@@ -1,0 +1,63 @@
+name: CCI
+
+on:
+  push:
+    branches: [ development, master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: "preparing environment"
+        run: |
+          sudo rm -rf /etc/apt/sources.list.d/*
+          sudo apt update
+          sudo apt install cmake
+          sudo apt install git
+          sudo apt install valgrind
+          sudo apt install cppcheck
+          sudo apt install gcovr
+          sudo apt install gcc
+          sudo apt install g++
+          sudo apt install python3-pip
+          sudo pip3 install cpplint
+          git submodule update --init --recursive
+
+      - name: "static analyze"
+        run: scripts/static_analyze.sh
+
+      - name: "linter"
+        run: scripts/linters.sh
+
+      - name: "unit tests"
+        run: scripts/tests.sh
+
+      - name: "codecov"
+        uses: codecov/codecov-action@v1.3.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          name: codecov
+          verbose: true
+          files: coverage.xml
+          fail_ci_if_error: true
+
+      - name: "memory checking"
+        run: scripts/checks.sh
+
+      - name: "documentation"
+        uses: mattnotmitt/doxygen-action@v1
+        with:
+          working-directory: "."
+          doxyfile-path: "./Doxyfile"
+
+      - name: "publish documentation"
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/html
+
