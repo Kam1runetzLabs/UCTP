@@ -6,3 +6,4 @@ ignore:
   - ".github/**/*"
   - "scripts/**/*"
   - "docs/**/*"
+  - "cmake-build-debug/*"
