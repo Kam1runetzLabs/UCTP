@@ -13,7 +13,7 @@ HunterGate(
         SHA1 "35fa55bc1dfcf9f4d7264f8bb26cd1759ce1ae07"
 )
 
-project(vectors_processing VERSION 0.1.0)
+project(UCTP VERSION 0.1.0)
 
 if (BUILD_COVERAGE)
     string(APPEND CMAKE_CXX_FLAGS " -lgcov --coverage")
@@ -24,9 +24,9 @@ if (BUILD_TESTS)
     add_subdirectory(tests)
 endif ()
 
-
 string(APPEND CMAKE_CXX_FLAGS " -pedantic -Werror -Wall -Wextra")
 string(APPEND CMAKE_CXX_FLAGS " -Wno-unused-command-line-argument")
 string(APPEND CMAKE_CXX_FLAGS " -Wshadow -Wnon-virtual-dtor")
 
 add_subdirectory(src)
+add_subdirectory(project)
