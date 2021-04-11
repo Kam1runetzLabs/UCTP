@@ -17,14 +17,14 @@ cmake --build _builds
 ./_builds/tests/unit_tests/tests
 
 # thread sanitizer
-CMAKE_CONFIG_OPTIONS="-DHUNTER_CONFIGURATION_TYPE=Debug -DCMAKE_BUILD_TYPE=Debug"
-CMAKE_TOOLCHAIN_OPTIONS="-DCMAKE_TOOLCHAIN_FILE='$(pwd)/tools/polly/sanitize-thread-cxx17-pic.cmake'"
-CMAKE_OPTIONS="$CMAKE_TOOLCHAIN_OPTIONS $CMAKE_CONFIG_OPTIONS"
+# CMAKE_CONFIG_OPTIONS="-DHUNTER_CONFIGURATION_TYPE=Debug -DCMAKE_BUILD_TYPE=Debug"
+# CMAKE_TOOLCHAIN_OPTIONS="-DCMAKE_TOOLCHAIN_FILE='$(pwd)/tools/polly/sanitize-thread-cxx17-pic.cmake'"
+# CMAKE_OPTIONS="$CMAKE_TOOLCHAIN_OPTIONS $CMAKE_CONFIG_OPTIONS"
 
-rm -rf B_builds
-cmake -H. -B_builds $CMAKE_OPTIONS
-cmake --build _builds
-./_builds/tests/unit_tests/tests
+# rm -rf B_builds
+# cmake -H. -B_builds $CMAKE_OPTIONS
+# cmake --build _builds
+# ./_builds/tests/unit_tests/tests
 
 # valgrind memcheck
 CMAKE_CONFIG_OPTIONS="-DHUNTER_CONFIGURATION_TYPE=Debug -DCMAKE_BUILD_TYPE=Debug"
