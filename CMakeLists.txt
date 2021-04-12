@@ -15,6 +15,8 @@ HunterGate(
 
 project(UCTP VERSION 0.1.0)
 
+hunter_add_package(Boost COMPONENTS log thread system)
+
 if (BUILD_COVERAGE)
     string(APPEND CMAKE_CXX_FLAGS " -lgcov --coverage")
 endif ()
@@ -29,4 +31,3 @@ string(APPEND CMAKE_CXX_FLAGS " -Wno-unused-command-line-argument")
 string(APPEND CMAKE_CXX_FLAGS " -Wshadow -Wnon-virtual-dtor")
 
 add_subdirectory(src)
-add_subdirectory(project)
