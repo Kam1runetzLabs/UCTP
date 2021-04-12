@@ -548,5 +548,7 @@ venv/
 # End of https://www.toptal.com/developers/gitignore/api/clion+all,visualstudio,visualstudiocode,cmake,xcode,c++
 *.org
 
+*.env
+/db-data/
 html
 latex
