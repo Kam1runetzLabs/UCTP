@@ -5,12 +5,78 @@
 #include <utility>
 
 // GeneralLessonBuilder
-void GeneralLessonBuilder::timeAdd(std::vector<Lesson> m_schedule) {
-  if (m_schedule.empty()) {
+void GeneralLessonBuilder::timeAdd(std::vector<Lesson> schedule) {
+  if (schedule.empty()) {
+  }
+  lesson.dayOfWeek = 1;
+  lesson.lessonNumber = 1;
+}
+
+void GeneralLessonBuilder::teacherAdd(std::vector<Lesson> schedule,
+                                      std::vector<Teacher> availableTeacher) {
+  if (schedule.empty()) {
+  }
+  if (!availableTeacher.empty()) {
+    lesson.firstTeacher = availableTeacher[0];
+  }
+}
+
+void GeneralLessonBuilder::auditoryAdd(
+    std::vector<Lesson> schedule, std::vector<Auditory> availableAuditory) {
+  if (schedule.empty() && availableAuditory.empty()) {
+  }
+  if (!availableAuditory.empty()) {
+    lesson.firstAuditory = availableAuditory[0];
   }
 }
 
 Lesson GeneralLessonBuilder::getLesson() { return lesson; }
+
+// TwoTeachersLessonBuilder
+void TwoTeachersLessonBuilder::timeAdd(std::vector<Lesson> schedule) {
+  if (schedule.empty()) {
+  }
+  lesson.dayOfWeek = 1;
+  lesson.lessonNumber = 1;
+}
+
+void TwoTeachersLessonBuilder::teacherAdd(std::vector<Lesson> schedule,
+                                      std::vector<Teacher> availableTeacher) {
+  if (schedule.empty()) {
+  }
+  if (!availableTeacher.empty()) {
+    lesson.firstTeacher = availableTeacher[0];
+  }
+}
+
+void TwoTeachersLessonBuilder::auditoryAdd(
+    std::vector<Lesson> schedule, std::vector<Auditory> availableAuditory) {
+  if (schedule.empty() && availableAuditory.empty()) {
+  }
+  if (!availableAuditory.empty()) {
+    lesson.firstAuditory = availableAuditory[0];
+  }
+}
+
+void TwoTeachersLessonBuilder::secondTeacherAdd(std::vector<Lesson> schedule,
+                                          std::vector<Teacher> availableTeacher) {
+  if (schedule.empty()) {
+  }
+  if (!availableTeacher.empty()) {
+    lesson.secondTeacher = availableTeacher[0];
+  }
+}
+
+void TwoTeachersLessonBuilder::secondAuditoryAdd(
+    std::vector<Lesson> schedule, std::vector<Auditory> availableAuditory) {
+  if (schedule.empty() && availableAuditory.empty()) {
+  }
+  if (!availableAuditory.empty()) {
+    lesson.secondAuditory = availableAuditory[0];
+  }
+}
+
+Lesson TwoTeachersLessonBuilder::getLesson() { return lesson; }
 
 // GeneralLessonConstructor
 void GeneralLessonConstructor::setLessonBuilder(
@@ -19,10 +85,28 @@ void GeneralLessonConstructor::setLessonBuilder(
 }
 
 Lesson GeneralLessonConstructor::ConstructLesson(
-    std::vector<Lesson> m_schedule) {
-  m_builder->timeAdd(m_schedule);
-  m_builder->auditoryAdd();
-  m_builder->teacherAdd();
+    std::vector<Lesson> schedule, std::vector<Auditory> availableAuditory,
+    std::vector<Teacher> availableTeacher) {
+  m_builder->timeAdd(schedule);
+  m_builder->auditoryAdd(schedule, availableAuditory);
+  m_builder->teacherAdd(schedule, availableTeacher);
+  return m_builder->getLesson();
+}
+
+// TwoTeachersLessonConstructor
+void TwoTeachersLessonConstructor::setLessonBuilder(
+    TwoTeachersLessonBuilder* myLessonBuilder) {
+  m_builder = myLessonBuilder;
+}
+
+Lesson TwoTeachersLessonConstructor::ConstructLesson(
+    std::vector<Lesson> schedule, std::vector<Auditory> availableAuditory,
+    std::vector<Teacher> availableTeacher) {
+  m_builder->timeAdd(schedule);
+  m_builder->auditoryAdd(schedule, availableAuditory);
+  m_builder->secondAuditoryAdd(schedule, availableAuditory);
+  m_builder->teacherAdd(schedule, availableTeacher);
+  m_builder->secondTeacherAdd(schedule, availableTeacher);
   return m_builder->getLesson();
 }
 
@@ -42,22 +126,29 @@ void LessonBuilder::setAvailable(std::vector<Auditory> AvailableAuditory,
   m_availableTeacher = std::move(AvailableTeachers);
 }
 
-Lesson LessonBuilder::ConstructLesson(
-    std::vector<Lesson> m_schedule) {
-  m_lesson = m_currentLessonConstructor->ConstructLesson(std::move(m_schedule));
+Lesson LessonBuilder::ConstructLesson(std::vector<Lesson> schedule,
+                                      std::vector<Auditory> availableAuditory,
+                                      std::vector<Teacher> availableTeacher) {
+  m_lesson = m_currentLessonConstructor->ConstructLesson(
+      std::move(schedule), std::move(availableAuditory),
+      std::move(availableTeacher));
   return m_lesson;
 }
 
 // ScheduleBuilder
 void ScheduleBuilder::ConstructSchedule() {
   for (int i = 0; i < 2; ++i) {
-    auto* newLesson = new Lesson;
-    GeneralLessonBuilder generalLessonBuilder(*newLesson);
+    GeneralLessonBuilder generalLessonBuilder;
     m_lessonBuilder.setLessonBuilder(&generalLessonBuilder);
     GeneralLessonConstructor generalLessonConstructor;
     generalLessonConstructor.setLessonBuilder(&generalLessonBuilder);
     m_lessonBuilder.setLessonConstructor(&generalLessonConstructor);
-    m_lessonBuilder.ConstructLesson(m_schedule);
+
+    std::vector<Teacher> availableTeacher;
+    std::vector<Auditory> availableAuditory;
+    auto* newLesson = new Lesson;
+    *newLesson = m_lessonBuilder.ConstructLesson(m_schedule, availableAuditory,
+                                                 availableTeacher);
     m_schedule.push_back(*newLesson);
   }
 }

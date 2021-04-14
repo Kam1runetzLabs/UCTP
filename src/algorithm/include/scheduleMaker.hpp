@@ -14,39 +14,77 @@ class ACurrentLessonBuilder {
  public:
   ACurrentLessonBuilder() = default;
   virtual ~ACurrentLessonBuilder() = default;
-  virtual void timeAdd(std::vector<Lesson> m_schedule) = 0;
-  virtual void teacherAdd() = 0;
-  virtual void auditoryAdd() = 0;
+  virtual void timeAdd(std::vector<Lesson> schedule) = 0;
+  virtual void teacherAdd(std::vector<Lesson> schedule,
+                          std::vector<Teacher> availableTeacher) = 0;
+  virtual void auditoryAdd(std::vector<Lesson> schedule,
+                           std::vector<Auditory> availableAuditory) = 0;
 };
 
 class GeneralLessonBuilder : public ACurrentLessonBuilder {
  protected:
   Lesson lesson;
  public:
-  explicit GeneralLessonBuilder(Lesson newLesson): lesson(newLesson){};
+  GeneralLessonBuilder() {};
   ~GeneralLessonBuilder() override = default;
-  void timeAdd(std::vector<Lesson> m_schedule) override;
-  void teacherAdd() override {}
-  void auditoryAdd() override{}
+  void timeAdd(std::vector<Lesson> schedule) override;
+  void teacherAdd(std::vector<Lesson> schedule,
+                  std::vector<Teacher> availableTeacher) override;
+  void auditoryAdd(std::vector<Lesson> schedule,
+                   std::vector<Auditory> availableAuditory) override;
+  Lesson getLesson();
+};
+
+class TwoTeachersLessonBuilder : public ACurrentLessonBuilder {
+ protected:
+  Lesson lesson;
+ public:
+  TwoTeachersLessonBuilder() {};
+  ~TwoTeachersLessonBuilder() override = default;
+  void timeAdd(std::vector<Lesson> schedule) override;
+  void teacherAdd(std::vector<Lesson> schedule,
+                  std::vector<Teacher> availableTeacher) override;
+  void secondTeacherAdd(std::vector<Lesson> schedule,
+                  std::vector<Teacher> availableTeacher);
+  void auditoryAdd(std::vector<Lesson> schedule,
+                   std::vector<Auditory> availableAuditory) override;
+  void secondAuditoryAdd(std::vector<Lesson> schedule,
+                   std::vector<Auditory> availableAuditory);
   Lesson getLesson();
 };
 
 class ILessonConstructor {
  public:
   virtual ~ILessonConstructor() = default;
-  virtual Lesson ConstructLesson(
-      std::vector<Lesson> m_schedule) = 0;
+  virtual Lesson ConstructLesson(std::vector<Lesson> schedule,
+                                 std::vector<Auditory> availableAuditory,
+                                 std::vector<Teacher> availableTeacher) = 0;
 };
 
 class GeneralLessonConstructor : public ILessonConstructor {
  protected:
   GeneralLessonBuilder* m_builder = nullptr;
+
  public:
   GeneralLessonConstructor() = default;
   ~GeneralLessonConstructor() override = default;
   void setLessonBuilder(GeneralLessonBuilder* myLessonBuilder);
-  Lesson ConstructLesson(
-      std::vector<Lesson> m_schedule) override;
+  Lesson ConstructLesson(std::vector<Lesson> schedule,
+                         std::vector<Auditory> availableAuditory,
+                         std::vector<Teacher> availableTeacher) override;
+};
+
+class TwoTeachersLessonConstructor : public ILessonConstructor {
+ protected:
+  TwoTeachersLessonBuilder* m_builder = nullptr;
+
+ public:
+  TwoTeachersLessonConstructor() = default;
+  ~TwoTeachersLessonConstructor() override = default;
+  void setLessonBuilder(TwoTeachersLessonBuilder* myLessonBuilder);
+  Lesson ConstructLesson(std::vector<Lesson> schedule,
+                         std::vector<Auditory> availableAuditory,
+                         std::vector<Teacher> availableTeacher) override;
 };
 
 class LessonBuilder {
@@ -63,7 +101,9 @@ class LessonBuilder {
   void setLessonConstructor(ILessonConstructor* newLessonConstructor);
   void setAvailable(std::vector<Auditory> AvailableAuditory,
                     std::vector<Teacher> AvailableTeachers);
-  Lesson ConstructLesson(std::vector<Lesson> m_schedule);
+  Lesson ConstructLesson(std::vector<Lesson> schedule,
+                         std::vector<Auditory> availableAuditory,
+                         std::vector<Teacher> availableTeacher);
 };
 
 class ScheduleBuilder {
@@ -86,8 +126,8 @@ class Algorithm {
 
  public:
   Algorithm(const AcademicPlan& AcPlan, ScheduleBuilder mScheduleBuilder)
-      : m_academicPlan(AcPlan), m_scheduleBuilder(std::move(mScheduleBuilder)) {
-  };
+      : m_academicPlan(AcPlan),
+        m_scheduleBuilder(std::move(mScheduleBuilder)){};
   void Run();
 };
 

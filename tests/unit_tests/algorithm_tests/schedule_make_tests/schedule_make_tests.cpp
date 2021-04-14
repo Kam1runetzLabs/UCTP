@@ -4,7 +4,7 @@
 
 #include "scheduleMaker.hpp"
 
-TEST(EmtpyTest, EmtpyTest) {
+TEST(SheduleMakerTest, RunTest) {
   LessonBuilder LB;
   AcademicPlan myAcademicPlan;
   ScheduleBuilder myScheduleBuilder(LB, myAcademicPlan);
