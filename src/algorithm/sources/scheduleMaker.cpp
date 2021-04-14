@@ -7,6 +7,7 @@
 // GeneralLessonBuilder
 void GeneralLessonBuilder::timeAdd(std::vector<Lesson> schedule) {
   if (schedule.empty()) {
+    lesson.dayOfWeek = 1;
   }
   lesson.dayOfWeek = 1;
   lesson.lessonNumber = 1;
@@ -15,6 +16,7 @@ void GeneralLessonBuilder::timeAdd(std::vector<Lesson> schedule) {
 void GeneralLessonBuilder::teacherAdd(std::vector<Lesson> schedule,
                                       std::vector<Teacher> availableTeacher) {
   if (schedule.empty()) {
+    lesson.firstTeacher.teacherId = 9;
   }
   if (!availableTeacher.empty()) {
     lesson.firstTeacher = availableTeacher[0];
@@ -24,6 +26,7 @@ void GeneralLessonBuilder::teacherAdd(std::vector<Lesson> schedule,
 void GeneralLessonBuilder::auditoryAdd(
     std::vector<Lesson> schedule, std::vector<Auditory> availableAuditory) {
   if (schedule.empty() && availableAuditory.empty()) {
+    lesson.firstTeacher.teacherId = 9;
   }
   if (!availableAuditory.empty()) {
     lesson.firstAuditory = availableAuditory[0];
@@ -35,14 +38,16 @@ Lesson GeneralLessonBuilder::getLesson() { return lesson; }
 // TwoTeachersLessonBuilder
 void TwoTeachersLessonBuilder::timeAdd(std::vector<Lesson> schedule) {
   if (schedule.empty()) {
+    lesson.dayOfWeek = 1;
   }
   lesson.dayOfWeek = 1;
   lesson.lessonNumber = 1;
 }
 
-void TwoTeachersLessonBuilder::teacherAdd(std::vector<Lesson> schedule,
-                                      std::vector<Teacher> availableTeacher) {
+void TwoTeachersLessonBuilder::teacherAdd(
+    std::vector<Lesson> schedule, std::vector<Teacher> availableTeacher) {
   if (schedule.empty()) {
+    lesson.firstTeacher.teacherId = 7;
   }
   if (!availableTeacher.empty()) {
     lesson.firstTeacher = availableTeacher[0];
@@ -52,15 +57,17 @@ void TwoTeachersLessonBuilder::teacherAdd(std::vector<Lesson> schedule,
 void TwoTeachersLessonBuilder::auditoryAdd(
     std::vector<Lesson> schedule, std::vector<Auditory> availableAuditory) {
   if (schedule.empty() && availableAuditory.empty()) {
+    lesson.dayOfWeek = 1;
   }
   if (!availableAuditory.empty()) {
     lesson.firstAuditory = availableAuditory[0];
   }
 }
 
-void TwoTeachersLessonBuilder::secondTeacherAdd(std::vector<Lesson> schedule,
-                                          std::vector<Teacher> availableTeacher) {
+void TwoTeachersLessonBuilder::secondTeacherAdd(
+    std::vector<Lesson> schedule, std::vector<Teacher> availableTeacher) {
   if (schedule.empty()) {
+    lesson.secondTeacher.teacherId = 9;
   }
   if (!availableTeacher.empty()) {
     lesson.secondTeacher = availableTeacher[0];
@@ -70,6 +77,7 @@ void TwoTeachersLessonBuilder::secondTeacherAdd(std::vector<Lesson> schedule,
 void TwoTeachersLessonBuilder::secondAuditoryAdd(
     std::vector<Lesson> schedule, std::vector<Auditory> availableAuditory) {
   if (schedule.empty() && availableAuditory.empty()) {
+    lesson.secondAuditory.auditoryId = 9;
   }
   if (!availableAuditory.empty()) {
     lesson.secondAuditory = availableAuditory[0];

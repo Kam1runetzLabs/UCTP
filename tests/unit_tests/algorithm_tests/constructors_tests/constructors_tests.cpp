@@ -16,11 +16,12 @@ TEST(ScheduleMakerConstructorTest, GeneralLessonConstructorTest) {
   availableTeacher.push_back(*myTeacher);
 
   std::vector<Auditory> availableAuditory;
-  auto* myAuditory= new Auditory;
+  auto* myAuditory = new Auditory;
   myAuditory->auditoryId = 1;
   availableAuditory.push_back(*myAuditory);
 
-  Lesson myLesson = genLessonConstructor.ConstructLesson(schedule, availableAuditory, availableTeacher);
+  Lesson myLesson = genLessonConstructor.ConstructLesson(
+      schedule, availableAuditory, availableTeacher);
 
   EXPECT_EQ(myLesson.lessonNumber, 1);
   EXPECT_EQ(myLesson.dayOfWeek, 1);
@@ -43,11 +44,12 @@ TEST(ScheduleMakerConstructorTest, TwoTeachersLessonConstructorTest) {
   availableTeacher.push_back(*myTeacher);
 
   std::vector<Auditory> availableAuditory;
-  auto* myAuditory= new Auditory;
+  auto* myAuditory = new Auditory;
   myAuditory->auditoryId = 1;
   availableAuditory.push_back(*myAuditory);
 
-  Lesson myLesson = TTLessonConstructor.ConstructLesson(schedule, availableAuditory, availableTeacher);
+  Lesson myLesson = TTLessonConstructor.ConstructLesson(
+      schedule, availableAuditory, availableTeacher);
 
   EXPECT_EQ(myLesson.lessonNumber, 1);
   EXPECT_EQ(myLesson.dayOfWeek, 1);
@@ -59,4 +61,3 @@ TEST(ScheduleMakerConstructorTest, TwoTeachersLessonConstructorTest) {
   delete myTeacher;
   delete myAuditory;
 }
-

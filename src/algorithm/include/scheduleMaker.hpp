@@ -24,8 +24,9 @@ class ACurrentLessonBuilder {
 class GeneralLessonBuilder : public ACurrentLessonBuilder {
  protected:
   Lesson lesson;
+
  public:
-  GeneralLessonBuilder() {};
+  GeneralLessonBuilder(){}
   ~GeneralLessonBuilder() override = default;
   void timeAdd(std::vector<Lesson> schedule) override;
   void teacherAdd(std::vector<Lesson> schedule,
@@ -38,18 +39,19 @@ class GeneralLessonBuilder : public ACurrentLessonBuilder {
 class TwoTeachersLessonBuilder : public ACurrentLessonBuilder {
  protected:
   Lesson lesson;
+
  public:
-  TwoTeachersLessonBuilder() {};
+  TwoTeachersLessonBuilder(){}
   ~TwoTeachersLessonBuilder() override = default;
   void timeAdd(std::vector<Lesson> schedule) override;
   void teacherAdd(std::vector<Lesson> schedule,
                   std::vector<Teacher> availableTeacher) override;
   void secondTeacherAdd(std::vector<Lesson> schedule,
-                  std::vector<Teacher> availableTeacher);
+                        std::vector<Teacher> availableTeacher);
   void auditoryAdd(std::vector<Lesson> schedule,
                    std::vector<Auditory> availableAuditory) override;
   void secondAuditoryAdd(std::vector<Lesson> schedule,
-                   std::vector<Auditory> availableAuditory);
+                         std::vector<Auditory> availableAuditory);
   Lesson getLesson();
 };
 
@@ -114,7 +116,7 @@ class ScheduleBuilder {
  public:
   ScheduleBuilder(LessonBuilder LessonBuilder, AcademicPlan AcademicPlan)
       : m_lessonBuilder(std::move(LessonBuilder)),
-        m_academicPlan(AcademicPlan){};
+        m_academicPlan(AcademicPlan){}
 
   void ConstructSchedule();
   std::vector<Lesson> getSchedule();
@@ -127,7 +129,7 @@ class Algorithm {
  public:
   Algorithm(const AcademicPlan& AcPlan, ScheduleBuilder mScheduleBuilder)
       : m_academicPlan(AcPlan),
-        m_scheduleBuilder(std::move(mScheduleBuilder)){};
+        m_scheduleBuilder(std::move(mScheduleBuilder)){}
   void Run();
 };
 

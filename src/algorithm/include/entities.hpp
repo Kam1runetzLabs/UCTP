@@ -3,6 +3,9 @@
 #ifndef INCLUDE_ENTITIES_HPP
 #define INCLUDE_ENTITIES_HPP
 
+#include <string>
+#include <vector>
+
 struct Departmnet {};
 
 struct AcademicPlan {};
