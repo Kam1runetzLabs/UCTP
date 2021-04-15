@@ -1,0 +1,6 @@
+#ifndef INCLUDE_DBCONTEXT_HPP_
+#define INCLUDE_DBCONTEXT_HPP_
+
+union DBContext {};
+
+#endif  // INCLUDE_DBCONTEXT_HPP_
