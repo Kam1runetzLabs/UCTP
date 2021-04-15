@@ -1,8 +1,34 @@
-//
-// Created by w1ckedente on 15.04.2021.
-//
+// Copyright 2021 Kam1runetzLabs notsoserious2017@gmail.com
 
-#ifndef UCTP_CONTROLLERCONTEXT_HPP
-#define UCTP_CONTROLLERCONTEXT_HPP
+#ifndef INCLUDE_CONTROLLERCONTEXT_HPP_
+#define INCLUDE_CONTROLLERCONTEXT_HPP_
 
-#endif  // UCTP_CONTROLLERCONTEXT_HPP
+#include <string>
+#include <nlohmann/json.hpp>
+
+union ControllerContext {
+ public:
+  enum StatusCodes {
+    Ok,
+    ControllerError,
+    ModelError,
+    DataError
+  };
+
+  enum HttpMethod { Get, Post };
+
+  struct ControllerRequest {
+    HttpMethod Method;
+    nlohmann::json RequestBody;
+  };
+
+  struct ControllerResponse {
+    StatusCodes Status;
+    nlohmann::json ResponseBody;
+  };
+
+  ControllerRequest Request;
+  ControllerResponse Response;
+};
+
+#endif  // INCLUDE_CONTROLLERCONTEXT_HPP_
