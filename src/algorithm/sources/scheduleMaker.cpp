@@ -158,10 +158,13 @@ void ScheduleBuilder::ConstructSchedule() {
     *newLesson = m_lessonBuilder.ConstructLesson(m_schedule, availableAuditory,
                                                  availableTeacher);
     m_schedule.push_back(*newLesson);
+    delete newLesson;
   }
 }
 
 std::vector<Lesson> ScheduleBuilder::getSchedule() { return m_schedule; }
 
 // Main Algorithm
-void Algorithm::Run() { m_scheduleBuilder.ConstructSchedule(); }
+void Algorithm::Run() {
+  m_scheduleBuilder.ConstructSchedule();
+}
