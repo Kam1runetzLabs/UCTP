@@ -1,0 +1,3 @@
+add_subdirectory(builders_tests)
+add_subdirectory(constructors_tests)
+add_subdirectory(schedule_make_tests)
