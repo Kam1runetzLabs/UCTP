@@ -118,6 +118,12 @@ class ScheduleBuilder {
       : m_lessonBuilder(std::move(LessonBuilder)),
         m_academicPlan(AcademicPlan){}
 
+  void Clear() {
+    for (auto i : m_schedule) {
+      delete &i;
+    }
+  }
+
   void ConstructSchedule();
   std::vector<Lesson> getSchedule();
 };
