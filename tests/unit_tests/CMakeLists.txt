@@ -1,1 +1,1 @@
-add_subdirectory(algorithm_tests)
+add_subdirectory(genetic_algorithm_tests)
