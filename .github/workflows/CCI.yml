@@ -52,7 +52,7 @@ jobs:
 
     # package project files.
     - name: compressive archive
-      run: tar cvfz app.tar.gz  config/  db/  lib/  plugin/  public/  sql/
+      run: tar cvfz app.tar.gz  config/  db/  lib/ public/
     - name: staging
       run: mkdir staging && mv app.tar.gz staging/
     - uses: actions/upload-artifact@v2
@@ -61,15 +61,15 @@ jobs:
         path: staging
 
     # creating docs
-    - name: creating documentation
-      uses: mattnotmitt/doxygen-action@v1
-      with:
-        working-directory: "."
-        doxyfile-path: "./Doxyfile"
+    # - name: creating documentation
+    #   uses: mattnotmitt/doxygen-action@v1
+    #   with:
+    #     working-directory: "."
+    #     doxyfile-path: "./Doxyfile"
 
     # publish docs 
-    - name: publish docs
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_branch: documentation
+    # - name: publish docs
+    #   uses: peaceiris/actions-gh-pages@v3
+    #   with:
+    #     github_token: ${{ secrets.GITHUB_TOKEN }}
+    #     publish_branch: documentation
