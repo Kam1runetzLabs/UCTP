@@ -1,0 +1,11 @@
+ignore:
+  - "cmake/**/*"
+  - "config/**/*"
+  - "db/**/*"
+  - ".github/**/*"
+  - "lib/**/*"
+  - "public/**/*"
+  - "script/**/*"
+  - "test/**/*"
+  - "views/**/*"
+  - "*build*/**/*"
