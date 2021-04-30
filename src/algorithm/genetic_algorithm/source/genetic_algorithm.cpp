@@ -1,26 +1,26 @@
 #include <genetic_algorithm.hpp>
 #include <unordered_map>
 
-int Gen::GetValue() const { return Value; }
-
-void ChromosomeTime::Initialize(Block *blockd) {
-  std::shared_ptr<Gen> newGen(new Gen);
-  TimeChromosome.push_back(newGen);
+int getRandomNumber(int min, int max) {
+  static const double fraction = 1.0 / (static_cast<double>(RAND_MAX) + 1.0);
+  return static_cast<int>(rand() * fraction * (max - min + 1) + min);
 }
+
+int Gen::GetValue() const { return Value; }
+Gen::Gen(int val) {}
+
+void ChromosomeTime::Initialize(const std::vector<Block>& blocks) {}
 std::vector<std::shared_ptr<Gen>> ChromosomeTime::GetTimeGenes() {
   return TimeChromosome;
 }
-void ChromosomeTime::NewMutationTime() {}
+void ChromosomeTime::NewMutationTime(int i, const std::vector<Block>& blocks) {}
 ChromosomeTime::ChromosomeTime() {}
 
-void ChromosomeAuditory::Initialize(Block *blockd) {
-  std::shared_ptr<Gen> newGen(new Gen);
-  AuditoryChromosome.push_back(newGen);
-}
+void ChromosomeAuditory::Initialize(const std::vector<Block>& blocks) {}
 std::vector<std::shared_ptr<Gen>> ChromosomeAuditory::GetAuditoryGenes() {
   return AuditoryChromosome;
 }
-void ChromosomeAuditory::NewMutationAuditory() {}
+void ChromosomeAuditory::NewMutationAuditory(int i, const std::vector<Block>& blocks) {}
 ChromosomeAuditory::ChromosomeAuditory() {}
 
 Individual::Individual() : Value(0) {
@@ -31,14 +31,8 @@ void Individual::Initialize() {
   CreateNewChromosomeAuditory();
   CreateNewChromosomeTime();
 }
-void Individual::CreateNewChromosomeTime() {
-  auto *blocks = new Block;
-  ChromTime->Initialize(blocks);
-}
-void Individual::CreateNewChromosomeAuditory() {
-  auto *blocks = new Block;
-  ChromAud->Initialize(blocks);
-}
+void Individual::CreateNewChromosomeTime() {}
+void Individual::CreateNewChromosomeAuditory() {}
 std::shared_ptr<ChromosomeAuditory> Individual::GetAuditoryChromosome() {
   return ChromAud;
 }
@@ -80,30 +74,22 @@ std::vector<std::shared_ptr<Individual>> Population::GetPopulation() {
   return Individuals;
 }
 
-void AllRules::GetRules() {}
-double AllRules::calcFitness(Individual Inds) { return 0; }
-int AllRules::GetPenalty(int cnt) { return 0; }
+void AllRules::SetRules() {}
+int AllRules::calcFitness(std::shared_ptr<Individual>& Ind) { return 0; }
+void AllRules::ForWordMutation(std::shared_ptr<Individual>& Ind) {}
+void AllRules::SetPenalty(int cnt) {}
 
-void SameAudSameTime::ForWordMutation(Individual Ind) {}
-int SameAudSameTime::CalcRule(Individual Ind) { return 0; }
-std::vector<int> SameAudSameTime::AllTimes() { return std::vector<int>(); }
-std::vector<int> SameAudSameTime::Blocks() { return std::vector<int>(); }
-std::vector<int> SameAudSameTime::AuditoryType1() { return std::vector<int>(); }
-std::vector<int> SameAudSameTime::AuditoryType2() { return std::vector<int>(); }
+SameAudSameTime::SameAudSameTime() {}
+void SameAudSameTime::ForWordMutation(std::shared_ptr<Individual>& Ind) {}
+int SameAudSameTime::CalcRule(std::shared_ptr<Individual>& Ind) { return 0; }
 int SameAudSameTime::GetR() { return 0; }
 
-void SameGroupMoreBlock::ForWordMutation(Individual Ind) {}
-int SameGroupMoreBlock::CalcRule(Individual Ind) { return 0; }
-std::vector<int> SameGroupMoreBlock::AllTimes() { return std::vector<int>(); }
-std::unordered_map<int, int[]> SameGroupMoreBlock::DirGroup() {
-  return std::unordered_map<int, int[]>();
-}
+void SameGroupMoreBlock::ForWordMutation(std::shared_ptr<Individual>& Ind) {}
+int SameGroupMoreBlock::CalcRule(std::shared_ptr<Individual>& Ind) { return 0; }
 int SameGroupMoreBlock::GetR() { return 0; }
+SameGroupMoreBlock::SameGroupMoreBlock() {}
 
-void SameLecMoreBlock::ForWordMutation(Individual Ind) {}
-int SameLecMoreBlock::CalcRule(Individual Ind) { return 0; }
-std::vector<int> SameLecMoreBlock::AllTimes() { return std::vector<int>(); }
-std::unordered_map<int, int[]> SameLecMoreBlock::DirLec() {
-  return std::unordered_map<int, int[]>();
-}
+void SameLecMoreBlock::ForWordMutation(std::shared_ptr<Individual>& Ind) {}
+int SameLecMoreBlock::CalcRule(std::shared_ptr<Individual>& Ind) { return 0; }
 int SameLecMoreBlock::GetR() { return 0; }
+SameLecMoreBlock::SameLecMoreBlock() {}
