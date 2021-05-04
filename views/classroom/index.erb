@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<%#include "classroom.h" %>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title><%= controller()->name() + ": " + controller()->activeAction() %></title>
+</head>
+<body>
+
+<h1>Listing Classroom</h1>
+
+<%== linkTo("Create a new Classroom", urla("create")) %><br />
+<br />
+<table border="1" cellpadding="5" style="border: 1px #d0d0d0 solid; border-collapse: collapse;">
+  <tr>
+    <th>ID</th>
+    <th>ClassroomName</th>
+    <th>ClassroomType</th>
+  </tr>
+<% tfetch(QList<Classroom>, classroomList); %>
+<% for (const auto &i : classroomList) { %>
+  <tr>
+    <td><%= i.id() %></td>
+    <td><%= i.classroomName() %></td>
+    <td><%= i.classroomType() %></td>
+    <td>
+      <%== linkTo("Show", urla("show", i.id())) %>
+      <%== linkTo("Edit", urla("save", i.id())) %>
+      <%== linkTo("Remove", urla("remove", i.id()), Tf::Post, "confirm('Are you sure?')") %>
+    </td>
+  </tr>
+<% } %>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<%#include "classroom.h" %>
+<% tfetch(QVariantMap, classroom); %>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title><%= controller()->name() + ": " + controller()->activeAction() %></title>
+</head>
+<body>
+<p style="color: red"><%=$ error %></p>
+<p style="color: green"><%=$ notice %></p>
+
+<h1>Editing Classroom</h1>
+
+<%== formTag(urla("save", classroom["id"]), Tf::Post) %>
+  <p>
+    <label>ID<br /><input type="text" name="classroom[id]" value="<%= classroom["id"] %>" readonly="readonly" /></label>
+  </p>
+  <p>
+    <label>ClassroomName<br /><input type="text" name="classroom[classroomName]" value="<%= classroom["classroomName"] %>" /></label>
+  </p>
+  <p>
+    <label>ClassroomType<br /><input type="text" name="classroom[classroomType]" value="<%= classroom["classroomType"] %>" /></label>
+  </p>
+  <p>
+    <input type="submit" value="Save" />
+  </p>
+</form>
+
+<%== linkTo("Show", urla("show", classroom["id"])) %> |
+<%== linkTo("Back", urla("index")) %>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<%#include "block.h" %>
+<% tfetch(Block, block); %>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title><%= controller()->name() + ": " + controller()->activeAction() %></title>
+</head>
+<body>
+<p style="color: red"><%=$ error %></p>
+<p style="color: green"><%=$ notice %></p>
+
+<h1>Showing Block</h1>
+<dt>ID</dt><dd><%= block.id() %></dd><br />
+<dt>BlockCount</dt><dd><%= block.blockCount() %></dd><br />
+<dt>TeacherId</dt><dd><%= block.teacherId() %></dd><br />
+<dt>SubjectId</dt><dd><%= block.subjectId() %></dd><br />
+<dt>GroupId</dt><dd><%= block.groupId() %></dd><br />
+
+<%== linkTo("Edit", urla("save", block.id())) %> |
+<%== linkTo("Back", urla("index")) %>
+
+</body>
+</html>

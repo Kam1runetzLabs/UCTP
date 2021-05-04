@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<%#include "timeslot.h" %>
+<% tfetch(QVariantMap, timeSlot); %>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title><%= controller()->name() + ": " + controller()->activeAction() %></title>
+</head>
+<body>
+<p style="color: red"><%=$ error %></p>
+<p style="color: green"><%=$ notice %></p>
+
+<h1>New Time Slot</h1>
+
+<%== formTag(urla("create"), Tf::Post) %>
+  <p>
+    <label>TimeSlotName<br /><input name="timeSlot[timeSlotName]" value="<%= timeSlot["timeSlotName"] %>" /></label>
+  </p>
+  <p>
+    <input type="submit" value="Create" />
+  </p>
+</form>
+
+<%== linkTo("Back", urla("index")) %>
+
+</body>
+</html>

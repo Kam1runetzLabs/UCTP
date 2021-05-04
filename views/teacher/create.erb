@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<%#include "teacher.h" %>
+<% tfetch(QVariantMap, teacher); %>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title><%= controller()->name() + ": " + controller()->activeAction() %></title>
+</head>
+<body>
+<p style="color: red"><%=$ error %></p>
+<p style="color: green"><%=$ notice %></p>
+
+<h1>New Teacher</h1>
+
+<%== formTag(urla("create"), Tf::Post) %>
+  <p>
+    <label>TeacherName<br /><input name="teacher[teacherName]" value="<%= teacher["teacherName"] %>" /></label>
+  </p>
+  <p>
+    <input type="submit" value="Create" />
+  </p>
+</form>
+
+<%== linkTo("Back", urla("index")) %>
+
+</body>
+</html>

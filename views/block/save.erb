@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<%#include "block.h" %>
+<% tfetch(QVariantMap, block); %>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title><%= controller()->name() + ": " + controller()->activeAction() %></title>
+</head>
+<body>
+<p style="color: red"><%=$ error %></p>
+<p style="color: green"><%=$ notice %></p>
+
+<h1>Editing Block</h1>
+
+<%== formTag(urla("save", block["id"]), Tf::Post) %>
+  <p>
+    <label>ID<br /><input type="text" name="block[id]" value="<%= block["id"] %>" readonly="readonly" /></label>
+  </p>
+  <p>
+    <label>BlockCount<br /><input type="text" name="block[blockCount]" value="<%= block["blockCount"] %>" /></label>
+  </p>
+  <p>
+    <label>TeacherId<br /><input type="text" name="block[teacherId]" value="<%= block["teacherId"] %>" /></label>
+  </p>
+  <p>
+    <label>SubjectId<br /><input type="text" name="block[subjectId]" value="<%= block["subjectId"] %>" /></label>
+  </p>
+  <p>
+    <label>GroupId<br /><input type="text" name="block[groupId]" value="<%= block["groupId"] %>" /></label>
+  </p>
+  <p>
+    <input type="submit" value="Save" />
+  </p>
+</form>
+
+<%== linkTo("Show", urla("show", block["id"])) %> |
+<%== linkTo("Back", urla("index")) %>
+</body>
+</html>

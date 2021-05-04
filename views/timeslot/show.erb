@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<%#include "timeslot.h" %>
+<% tfetch(TimeSlot, timeSlot); %>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title><%= controller()->name() + ": " + controller()->activeAction() %></title>
+</head>
+<body>
+<p style="color: red"><%=$ error %></p>
+<p style="color: green"><%=$ notice %></p>
+
+<h1>Showing Time Slot</h1>
+<dt>ID</dt><dd><%= timeSlot.id() %></dd><br />
+<dt>TimeSlotName</dt><dd><%= timeSlot.timeSlotName() %></dd><br />
+
+<%== linkTo("Edit", urla("save", timeSlot.id())) %> |
+<%== linkTo("Back", urla("index")) %>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<%#include "classroom.h" %>
+<% tfetch(Classroom, classroom); %>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title><%= controller()->name() + ": " + controller()->activeAction() %></title>
+</head>
+<body>
+<p style="color: red"><%=$ error %></p>
+<p style="color: green"><%=$ notice %></p>
+
+<h1>Showing Classroom</h1>
+<dt>ID</dt><dd><%= classroom.id() %></dd><br />
+<dt>ClassroomName</dt><dd><%= classroom.classroomName() %></dd><br />
+<dt>ClassroomType</dt><dd><%= classroom.classroomType() %></dd><br />
+
+<%== linkTo("Edit", urla("save", classroom.id())) %> |
+<%== linkTo("Back", urla("index")) %>
+
+</body>
+</html>

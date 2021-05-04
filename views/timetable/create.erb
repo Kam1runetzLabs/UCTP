@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<%#include "timetable.h" %>
+<% tfetch(QVariantMap, timetable); %>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title><%= controller()->name() + ": " + controller()->activeAction() %></title>
+</head>
+<body>
+<p style="color: red"><%=$ error %></p>
+<p style="color: green"><%=$ notice %></p>
+
+<h1>New Timetable</h1>
+
+<%== formTag(urla("create"), Tf::Post) %>
+  <p>
+    <label>ClassroomId<br /><input name="timetable[classroomId]" value="<%= timetable["classroomId"] %>" /></label>
+  </p>
+  <p>
+    <label>TimeId<br /><input name="timetable[timeId]" value="<%= timetable["timeId"] %>" /></label>
+  </p>
+  <p>
+    <label>BlockId<br /><input name="timetable[blockId]" value="<%= timetable["blockId"] %>" /></label>
+  </p>
+  <p>
+    <input type="submit" value="Create" />
+  </p>
+</form>
+
+<%== linkTo("Back", urla("index")) %>
+
+</body>
+</html>

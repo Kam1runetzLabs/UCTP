@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<%#include "subject.h" %>
+<% tfetch(Subject, subject); %>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title><%= controller()->name() + ": " + controller()->activeAction() %></title>
+</head>
+<body>
+<p style="color: red"><%=$ error %></p>
+<p style="color: green"><%=$ notice %></p>
+
+<h1>Showing Subject</h1>
+<dt>ID</dt><dd><%= subject.id() %></dd><br />
+<dt>SubjectName</dt><dd><%= subject.subjectName() %></dd><br />
+<dt>SubjectType</dt><dd><%= subject.subjectType() %></dd><br />
+
+<%== linkTo("Edit", urla("save", subject.id())) %> |
+<%== linkTo("Back", urla("index")) %>
+
+</body>
+</html>

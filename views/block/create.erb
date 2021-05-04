@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<%#include "block.h" %>
+<% tfetch(QVariantMap, block); %>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title><%= controller()->name() + ": " + controller()->activeAction() %></title>
+</head>
+<body>
+<p style="color: red"><%=$ error %></p>
+<p style="color: green"><%=$ notice %></p>
+
+<h1>New Block</h1>
+
+<%== formTag(urla("create"), Tf::Post) %>
+  <p>
+    <label>BlockCount<br /><input name="block[blockCount]" value="<%= block["blockCount"] %>" /></label>
+  </p>
+  <p>
+    <label>TeacherId<br /><input name="block[teacherId]" value="<%= block["teacherId"] %>" /></label>
+  </p>
+  <p>
+    <label>SubjectId<br /><input name="block[subjectId]" value="<%= block["subjectId"] %>" /></label>
+  </p>
+  <p>
+    <label>GroupId<br /><input name="block[groupId]" value="<%= block["groupId"] %>" /></label>
+  </p>
+  <p>
+    <input type="submit" value="Create" />
+  </p>
+</form>
+
+<%== linkTo("Back", urla("index")) %>
+
+</body>
+</html>

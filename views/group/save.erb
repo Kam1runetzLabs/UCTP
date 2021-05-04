@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<%#include "group.h" %>
+<% tfetch(QVariantMap, group); %>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title><%= controller()->name() + ": " + controller()->activeAction() %></title>
+</head>
+<body>
+<p style="color: red"><%=$ error %></p>
+<p style="color: green"><%=$ notice %></p>
+
+<h1>Editing Group</h1>
+
+<%== formTag(urla("save", group["id"]), Tf::Post) %>
+  <p>
+    <label>ID<br /><input type="text" name="group[id]" value="<%= group["id"] %>" readonly="readonly" /></label>
+  </p>
+  <p>
+    <label>GroupName<br /><input type="text" name="group[groupName]" value="<%= group["groupName"] %>" /></label>
+  </p>
+  <p>
+    <input type="submit" value="Save" />
+  </p>
+</form>
+
+<%== linkTo("Show", urla("show", group["id"])) %> |
+<%== linkTo("Back", urla("index")) %>
+</body>
+</html>

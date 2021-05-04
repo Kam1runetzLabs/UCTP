@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<%#include "timetable.h" %>
+<% tfetch(Timetable, timetable); %>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title><%= controller()->name() + ": " + controller()->activeAction() %></title>
+</head>
+<body>
+<p style="color: red"><%=$ error %></p>
+<p style="color: green"><%=$ notice %></p>
+
+<h1>Showing Timetable</h1>
+<dt>ID</dt><dd><%= timetable.id() %></dd><br />
+<dt>ClassroomId</dt><dd><%= timetable.classroomId() %></dd><br />
+<dt>TimeId</dt><dd><%= timetable.timeId() %></dd><br />
+<dt>BlockId</dt><dd><%= timetable.blockId() %></dd><br />
+
+<%== linkTo("Edit", urla("save", timetable.id())) %> |
+<%== linkTo("Back", urla("index")) %>
+
+</body>
+</html>

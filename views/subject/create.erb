@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<%#include "subject.h" %>
+<% tfetch(QVariantMap, subject); %>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title><%= controller()->name() + ": " + controller()->activeAction() %></title>
+</head>
+<body>
+<p style="color: red"><%=$ error %></p>
+<p style="color: green"><%=$ notice %></p>
+
+<h1>New Subject</h1>
+
+<%== formTag(urla("create"), Tf::Post) %>
+  <p>
+    <label>SubjectName<br /><input name="subject[subjectName]" value="<%= subject["subjectName"] %>" /></label>
+  </p>
+  <p>
+    <label>SubjectType<br /><input name="subject[subjectType]" value="<%= subject["subjectType"] %>" /></label>
+  </p>
+  <p>
+    <input type="submit" value="Create" />
+  </p>
+</form>
+
+<%== linkTo("Back", urla("index")) %>
+
+</body>
+</html>

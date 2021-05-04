@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<%#include "teacher.h" %>
+<% tfetch(Teacher, teacher); %>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title><%= controller()->name() + ": " + controller()->activeAction() %></title>
+</head>
+<body>
+<p style="color: red"><%=$ error %></p>
+<p style="color: green"><%=$ notice %></p>
+
+<h1>Showing Teacher</h1>
+<dt>ID</dt><dd><%= teacher.id() %></dd><br />
+<dt>TeacherName</dt><dd><%= teacher.teacherName() %></dd><br />
+
+<%== linkTo("Edit", urla("save", teacher.id())) %> |
+<%== linkTo("Back", urla("index")) %>
+
+</body>
+</html>
