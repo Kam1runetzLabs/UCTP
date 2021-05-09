@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <%#include "timetable.h" %>
+<%#include "timeslot.h" %>
+<%#include "classroom.h" %>
+<%#include "group.h" %>
+<%#include "teacher.h" %>
+<%#include "subject.h" %>
+
 <html>
 <head>
   <meta charset="UTF-8">
@@ -19,12 +25,21 @@
     <th>BlockId</th>
   </tr>
 <% tfetch(QList<Timetable>, timetableList); %>
-<% for (const auto &i : timetableList) { %>
+<% tfetch(QList<TimeSlot>, timeSlots); %>
+<% tfetch(QList<Classroom>, classrooms); %>
+<% tfetch(QList<Group>, groups); %>
+<% tfetch(QList<Teacher>, teachers); %>
+<% tfetch(QList<Subject>, subjects); %>
+<% for (int i = 0; i != timetableList.size(); ++i) { %>
   <tr>
-    <td><%= i.id() %></td>
-    <td><%= i.classroomId() %></td>
-    <td><%= i.timeId() %></td>
-    <td><%= i.blockId() %></td>
+    <td><%= timetableList[i].id() %></td>
+    <td><%= timeSlots[i].timeSlotName(); %></td>
+    <td><%= classrooms[i].classroomName() %></td>
+    <td><%= classrooms[i].classroomType() %></td>
+    <td><%= groups[i].groupName() %></td>
+    <td><%= teachers[i].teacherName() %></td>
+    <td><%= subjects[i].subjectName() %></td>
+    <td><%= subjects[i].subjectType() %></td>
     <td>
       <%== linkTo("Show", urla("show", i.id())) %>
       <%== linkTo("Edit", urla("save", i.id())) %>

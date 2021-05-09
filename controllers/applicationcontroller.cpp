@@ -1,23 +1,14 @@
 #include "applicationcontroller.h"
 
+ApplicationController::ApplicationController() : TActionController() {}
 
-ApplicationController::ApplicationController()
-    : TActionController()
-{ }
+ApplicationController::~ApplicationController() {}
 
-ApplicationController::~ApplicationController()
-{ }
+void ApplicationController::staticInitialize() {}
 
-void ApplicationController::staticInitialize()
-{ }
+void ApplicationController::staticRelease() {}
 
-void ApplicationController::staticRelease()
-{ }
-
-bool ApplicationController::preFilter()
-{
-    return true;
-}
+bool ApplicationController::preFilter() { return true; }
 
 // Don't remove below this line
 T_DEFINE_CONTROLLER(ApplicationController)
