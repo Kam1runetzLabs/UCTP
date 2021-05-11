@@ -54,7 +54,7 @@ void TimetableController::create() {
       auto status = Timetable::calculate(blockList, classroomList, timeSlotList,
                                          timetableList);
       if (!status.ok()) {
-        QString error = "unable to create timetable";
+        QString error = status.error();
         tflash(error);
         break;
       }

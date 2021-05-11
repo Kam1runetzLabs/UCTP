@@ -3,6 +3,7 @@
 #include <TreeFrogModel>
 
 #include "sqlobjects/timetableobject.h"
+#include "utility/ThreadPool.hpp"
 
 Timetable::Timetable() : TAbstractModel(), d(new TimetableObject()) {
   // set the initial parameters
@@ -59,25 +60,39 @@ Timetable Timetable::create(const QVariantMap &values) {
   return model;
 }
 
-Timetable::Status generateTimetable(const QList<Block> &blocks,
-                                    const QList<Classroom> &classrooms,
-                                    const QList<TimeSlot> &timeSlots,
-                                    QList<TimetableObject> &result) {
+QList<TimetableObject> generateTimetable(const QList<Block> &blocks,
+                                         const QList<Classroom> &classrooms,
+                                         const QList<TimeSlot> &timeSlots) {
   // todo generate timetable from genetic algorithm
-  return Timetable::Status{};
+  return QList<TimetableObject>();
 }
 
 Timetable::Status Timetable::calculate(const QList<Block> &blocks,
                                        const QList<Classroom> &classrooms,
                                        const QList<TimeSlot> &timeSlots,
                                        QList<Timetable> &result) {
-  QList<TimetableObject> objects;
-  auto status = generateTimetable(blocks, classrooms, timeSlots, objects);
-  for (TimetableObject obj : objects) {
-    if (obj.create()) {
-      result.append(Timetable(obj));
+  // todo arguments validation
+  Status status;
+  /*
+   * if (args invalid) status = error;*/
+
+  static ThreadPool threadPool(ThreadPool::HardwareConcurrency());
+
+  auto generateTask = [&blocks, &classrooms, &timeSlots] {
+    return generateTimetable(blocks, classrooms, timeSlots);
+  };
+
+  auto callback = [&result](QList<TimetableObject> &objects) {
+    for (auto &obj : objects) {
+      if (obj.create()) {
+        result.append(Timetable(obj));
+      }
     }
-  }
+  };
+
+  threadPool.Execute(
+      ThreadPool::Task(generateTask, blocks, classrooms, timeSlots),
+      ThreadPool::Callback(callback));
   return status;
 }
 
