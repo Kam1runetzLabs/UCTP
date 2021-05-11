@@ -19,24 +19,34 @@ void TimetableController::show(const QString &id)
 void TimetableController::create()
 {
     switch (httpRequest().method()) {
-    case Tf::Get:
-        render();
-        break;
+//    case Tf::Get:
+//        render();
+//        break;
+
+//    case Tf::Post: {
+//        auto timetable = httpRequest().formItems("timetable");
+//        auto model = Timetable::create(timetable);
+//
+//        if (!model.isNull()) {
+//            QString notice = "Created successfully.";
+//            tflash(notice);
+//            redirect(urla("show", model.id()));
+//        } else {
+//            QString error = "Failed to create.";
+//            texport(error);
+//            texport(timetable);
+//            render();
+//        }
+//        break; }
 
     case Tf::Post: {
-        auto timetable = httpRequest().formItems("timetable");
-        auto model = Timetable::create(timetable);
+        auto blockList = Block::getAll();
+        auto classroomList = Classroom::getAll();
+        auto timeSlotList = TimeSlot::getAll();
 
-        if (!model.isNull()) {
-            QString notice = "Created successfully.";
-            tflash(notice);
-            redirect(urla("show", model.id()));
-        } else {
-            QString error = "Failed to create.";
-            texport(error);
-            texport(timetable);
-            render();
-        }
+        auto timetableList = Timetable::calculate(blockList, classroomList, timeSlotList);
+        texport(timetableList);
+        render();
         break; }
 
     default:

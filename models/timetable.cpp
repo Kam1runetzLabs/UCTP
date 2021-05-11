@@ -92,7 +92,7 @@ QList<Timetable> Timetable::calculate(QList<Block> blocks, QList<Classroom> clas
 {
     QList<Timetable> result = QList<Timetable>();
 
-    QList<TimetableObject> objects; // TODO get objects from algorithm
+    QList<TimetableObject> objects = QList<TimetableObject>(); // TODO get objects from algorithm
     for (TimetableObject obj : objects) {
         if (obj.create()) {
           result.append(Timetable(obj));
