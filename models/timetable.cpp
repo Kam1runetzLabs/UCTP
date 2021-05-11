@@ -59,20 +59,28 @@ Timetable Timetable::create(const QVariantMap &values) {
   return model;
 }
 
-QList<Timetable> Timetable::calculate(const QList<Block> &blocks,
-                                      const QList<Classroom> &classrooms,
-                                      const QList<TimeSlot> &timeSlots) {
-  QList<Timetable> result = QList<Timetable>();
+Timetable::Status generateTimetable(const QList<Block> &blocks,
+                                    const QList<Classroom> &classrooms,
+                                    const QList<TimeSlot> &timeSlots,
+                                    QList<Timetable> &result) {
+  // todo generate timetable from genetic algorithm
+  return Timetable::Status{};
+}
 
-  QList<TimetableObject> objects =
-      QList<TimetableObject>();  // TODO get objects from algorithm
+Timetable::Status Timetable::calculate(const QList<Block> &blocks,
+                                       const QList<Classroom> &classrooms,
+                                       const QList<TimeSlot> &timeSlots,
+                                       QList<Timetable> &result) {
+  auto status = generateTimetable(blocks, classrooms, timeSlots, result);
+  // todo переделать это под алгоритм
+  QList<TimetableObject> objects;
   for (TimetableObject obj : objects) {
     if (obj.create()) {
       result.append(Timetable(obj));
     }
   }
-
-  return result;
+  // todo
+  return status;
 }
 
 Timetable Timetable::get(int id) {

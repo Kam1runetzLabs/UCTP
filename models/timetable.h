@@ -39,9 +39,22 @@ class T_MODEL_EXPORT Timetable : public TAbstractModel {
 
   static Timetable create(int classroomId, int timeId, int blockId);
   static Timetable create(const QVariantMap &values);
-  static QList<Timetable> calculate(const QList<Block> &blocks,
-                                    const QList<Classroom> &classrooms,
-                                    const QList<TimeSlot> &timeSlots);
+
+  struct Status {
+   public:
+    Status() : m_ErrorMessage(nullptr){};
+
+    bool ok() const { return true; };
+    const char *error() const { return ""; };
+
+   private:
+    char *m_ErrorMessage;
+  };
+
+  static Status calculate(const QList<Block> &blocks,
+                          const QList<Classroom> &classrooms,
+                          const QList<TimeSlot> &timeSlots,
+                          QList<Timetable> &result);
   static Timetable get(int id);
   static int count();
   static QList<Timetable> getAll();

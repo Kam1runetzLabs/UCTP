@@ -50,8 +50,14 @@ void TimetableController::create() {
       auto classroomList = Classroom::getAll();
       auto timeSlotList = TimeSlot::getAll();
 
-      auto timetableList =
-          Timetable::calculate(blockList, classroomList, timeSlotList);
+      QList<Timetable> timetableList;
+      auto status = Timetable::calculate(blockList, classroomList, timeSlotList,
+                                         timetableList);
+      if (!status.ok()) {
+        QString error = "unable to create timetable";
+        tflash(error);
+        break;
+      }
       texport(timetableList);
       redirect(urla("index"));
       break;
