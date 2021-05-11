@@ -62,7 +62,7 @@ Timetable Timetable::create(const QVariantMap &values) {
 Timetable::Status generateTimetable(const QList<Block> &blocks,
                                     const QList<Classroom> &classrooms,
                                     const QList<TimeSlot> &timeSlots,
-                                    QList<Timetable> &result) {
+                                    QList<TimetableObject> &result) {
   // todo generate timetable from genetic algorithm
   return Timetable::Status{};
 }
@@ -71,15 +71,13 @@ Timetable::Status Timetable::calculate(const QList<Block> &blocks,
                                        const QList<Classroom> &classrooms,
                                        const QList<TimeSlot> &timeSlots,
                                        QList<Timetable> &result) {
-  auto status = generateTimetable(blocks, classrooms, timeSlots, result);
-  // todo переделать это под алгоритм
   QList<TimetableObject> objects;
+  auto status = generateTimetable(blocks, classrooms, timeSlots, objects);
   for (TimetableObject obj : objects) {
     if (obj.create()) {
       result.append(Timetable(obj));
     }
   }
-  // todo
   return status;
 }
 
