@@ -19,9 +19,9 @@ void TimetableController::show(const QString &id)
 void TimetableController::create()
 {
     switch (httpRequest().method()) {
-//    case Tf::Get:
-//        render();
-//        break;
+    case Tf::Get:
+        render();
+        break;
 
 //    case Tf::Post: {
 //        auto timetable = httpRequest().formItems("timetable");
@@ -45,8 +45,7 @@ void TimetableController::create()
         auto timeSlotList = TimeSlot::getAll();
 
         auto timetableList = Timetable::calculate(blockList, classroomList, timeSlotList);
-        texport(timetableList);
-        render();
+        redirect(urla("index"));
         break; }
 
     default:
@@ -55,61 +54,69 @@ void TimetableController::create()
     }
 }
 
-void TimetableController::save(const QString &id)
+//void TimetableController::save(const QString &id)
+//{
+//    switch (httpRequest().method()) {
+//    case Tf::Get: {
+//        auto model = Timetable::get(id.toInt());
+//        if (!model.isNull()) {
+//            auto timetable = model.toVariantMap();
+//            texport(timetable);
+//            render();
+//        }
+//        break; }
+//
+//    case Tf::Post: {
+//        QString error;
+//        auto model = Timetable::get(id.toInt());
+//
+//        if (model.isNull()) {
+//            error = "Original data not found. It may have been updated/removed by another transaction.";
+//            tflash(error);
+//            redirect(urla("save", id));
+//            break;
+//        }
+//
+//        auto timetable = httpRequest().formItems("timetable");
+//        model.setProperties(timetable);
+//        if (model.save()) {
+//            QString notice = "Updated successfully.";
+//            tflash(notice);
+//            redirect(urla("show", model.id()));
+//        } else {
+//            error = "Failed to update.";
+//            texport(error);
+//            texport(timetable);
+//            render();
+//        }
+//        break; }
+//
+//    default:
+//        renderErrorResponse(Tf::NotFound);
+//        break;
+//    }
+//}
+
+//void TimetableController::remove(const QString &id)
+//{
+//    if (httpRequest().method() != Tf::Post) {
+//        renderErrorResponse(Tf::NotFound);
+//        return;
+//    }
+//
+//    auto timetable = Timetable::get(id.toInt());
+//    timetable.remove();
+//    redirect(urla("index"));
+//}
+
+void TimetableController::removeAll()
 {
-    switch (httpRequest().method()) {
-    case Tf::Get: {
-        auto model = Timetable::get(id.toInt());
-        if (!model.isNull()) {
-            auto timetable = model.toVariantMap();
-            texport(timetable);
-            render();
-        }
-        break; }
-
-    case Tf::Post: {
-        QString error;
-        auto model = Timetable::get(id.toInt());
-        
-        if (model.isNull()) {
-            error = "Original data not found. It may have been updated/removed by another transaction.";
-            tflash(error);
-            redirect(urla("save", id));
-            break;
-        }
-
-        auto timetable = httpRequest().formItems("timetable");
-        model.setProperties(timetable);
-        if (model.save()) {
-            QString notice = "Updated successfully.";
-            tflash(notice);
-            redirect(urla("show", model.id()));
-        } else {
-            error = "Failed to update.";
-            texport(error);
-            texport(timetable);
-            render();
-        }
-        break; }
-
-    default:
-        renderErrorResponse(Tf::NotFound);
-        break;
+    auto timetableList = Timetable::getAll();
+    for (auto obj: timetableList) {
+      obj.remove();
     }
-}
-
-void TimetableController::remove(const QString &id)
-{
-    if (httpRequest().method() != Tf::Post) {
-        renderErrorResponse(Tf::NotFound);
-        return;
-    }
-
-    auto timetable = Timetable::get(id.toInt());
-    timetable.remove();
     redirect(urla("index"));
 }
-
 
 // Don't remove below this line
 T_DEFINE_CONTROLLER(TimetableController)
