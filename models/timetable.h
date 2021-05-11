@@ -8,6 +8,10 @@
 #include <TAbstractModel>
 #include <TGlobal>
 
+#include "block.h"
+#include "classroom.h"
+#include "timeslot.h"
+
 class TModelObject;
 class TimetableObject;
 class QJsonArray;
@@ -33,8 +37,11 @@ class T_MODEL_EXPORT Timetable : public TAbstractModel {
   bool save() override { return TAbstractModel::save(); }
   bool remove() override { return TAbstractModel::remove(); }
 
-  static Timetable create(int classroomsId, int timeSlotsId, int blocksId);
+  static Timetable create(int classroomId, int timeId, int blockId);
   static Timetable create(const QVariantMap &values);
+  static QList<Timetable> calculate(const QList<Block> &blocks,
+                                    const QList<Classroom> &classrooms,
+                                    const QList<TimeSlot> &timeSlots);
   static Timetable get(int id);
   static int count();
   static QList<Timetable> getAll();

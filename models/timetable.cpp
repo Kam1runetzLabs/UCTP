@@ -59,6 +59,22 @@ Timetable Timetable::create(const QVariantMap &values) {
   return model;
 }
 
+QList<Timetable> Timetable::calculate(const QList<Block> &blocks,
+                                      const QList<Classroom> &classrooms,
+                                      const QList<TimeSlot> &timeSlots) {
+  QList<Timetable> result = QList<Timetable>();
+
+  QList<TimetableObject> objects =
+      QList<TimetableObject>();  // TODO get objects from algorithm
+  for (TimetableObject obj : objects) {
+    if (obj.create()) {
+      result.append(Timetable(obj));
+    }
+  }
+
+  return result;
+}
+
 Timetable Timetable::get(int id) {
   TSqlORMapper<TimetableObject> mapper;
   return Timetable(mapper.findByPrimaryKey(id));
