@@ -1,12 +1,16 @@
 #ifndef TIMETABLE_H
 #define TIMETABLE_H
 
-#include <QStringList>
 #include <QDateTime>
-#include <QVariant>
 #include <QSharedDataPointer>
-#include <TGlobal>
+#include <QStringList>
+#include <QVariant>
 #include <TAbstractModel>
+#include <TGlobal>
+
+#include "block.h"
+#include "classroom.h"
+#include "timeslot.h"
 
 class TModelObject;
 class TimetableObject;
@@ -37,6 +41,7 @@ public:
 
     static Timetable create(int classroomId, int timeId, int blockId);
     static Timetable create(const QVariantMap &values);
+    static QList<Timetable> calculate(QList<Block> blocks, QList<Classroom> classrooms, QList<TimeSlot> timeSlots);
     static Timetable get(int id);
     static int count();
     static QList<Timetable> getAll();
