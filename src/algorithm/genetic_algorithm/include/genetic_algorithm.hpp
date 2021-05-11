@@ -3,125 +3,198 @@
 
 #include <iostream>
 #include <memory>
+#include <unordered_map>
 #include <vector>
 
-struct Block {};
+#define POPULATION_SIZE_CONST 60;
+
+int getRandomNumber(int min, int max);
+
+struct Block {
+    int group;
+    int subject;
+    int subjectType;
+    int teacher;
+
+    Block(int g, int s, int st) : group(g), subject(s), subjectType(st) {}
+};
 
 class Gen {
-  int Value;
+    int Value;
 
- public:
-  int GetValue() const;
+public:
+    explicit Gen(int val);
+    Gen(std::shared_ptr<Gen> g);
+
+    int GetValue() const;
 };
 
 class ChromosomeTime {
-  std::vector<int> AllTimes;
+    std::vector<int> AllTimes;
 
-  std::vector<std::shared_ptr<Gen>> TimeChromosome;
+    std::vector<std::shared_ptr<Gen>> TimeChromosome;
 
- public:
-  explicit ChromosomeTime();
-  void Initialize(Block* blockd);
-  std::vector<std::shared_ptr<Gen>> GetTimeGenes();
-  void NewMutationTime();
+public:
+    explicit ChromosomeTime();
+
+    void CopyParts(std::vector<std::shared_ptr<Gen>> firstPart, std::vector<std::shared_ptr<Gen>> secondPart, int part);
+
+    void Initialize(const std::vector<Block>& blocks);
+
+    std::vector<std::shared_ptr<Gen>> GetTimeGenes();
+
+    void NewMutationTime(int i, const std::vector<Block>& blocks);
 };
 
 class ChromosomeAuditory {
-  std::vector<int> AuditoryType1;
-  std::vector<int> AuditoryType2;
+    std::vector<int> AuditoryType1;
+    std::vector<int> AuditoryType2;
 
-  std::vector<std::shared_ptr<Gen>> AuditoryChromosome;
+    std::vector<std::shared_ptr<Gen>> AuditoryChromosome;
 
- public:
-  explicit ChromosomeAuditory();
-  void Initialize(Block* blockd);
-  std::vector<std::shared_ptr<Gen>> GetAuditoryGenes();
-  void NewMutationAuditory();
+public:
+    explicit ChromosomeAuditory();
+
+    void CopyParts(std::vector<std::shared_ptr<Gen>> firstPart, std::vector<std::shared_ptr<Gen>> secondPart, int part);
+
+    void Initialize(const std::vector<Block>& blocks);
+
+    std::vector<std::shared_ptr<Gen>> GetAuditoryGenes();
+
+    void NewMutationAuditory(int i, const std::vector<Block>& blocks);
 };
 
 class Individual {
-  double Value;
-  std::shared_ptr<ChromosomeAuditory> ChromAud;
-  std::shared_ptr<ChromosomeTime> ChromTime;
+    std::shared_ptr<ChromosomeAuditory> ChromAud;
+    std::shared_ptr<ChromosomeTime> ChromTime;
+    std::vector<Block> blocks;
 
- public:
-  explicit Individual();
-  void Initialize();
-  void CreateNewChromosomeTime();
-  void CreateNewChromosomeAuditory();
-  std::shared_ptr<ChromosomeAuditory> GetAuditoryChromosome();
-  std::shared_ptr<ChromosomeTime> GetTimeChromosome();
-  double FitnessFunction();
-  void ComputeFitness();
+public:
+    explicit Individual();
+
+    void Crossing(std::shared_ptr<Individual> Ind1, std::shared_ptr<Individual> Ind2);
+
+    void Mutate();
+
+    void Initialize();
+
+    void CreateNewChromosomeTime();
+
+    void CreateNewChromosomeAuditory();
+
+    std::shared_ptr<ChromosomeAuditory> GetAuditoryChromosome();
+
+    std::shared_ptr<ChromosomeTime> GetTimeChromosome();
 };
 
 class Population {
-  std::vector<std::shared_ptr<Individual>> Individuals;
-  int sizeIndividuals;
+    std::vector<std::shared_ptr<Individual>> Individuals;
+    int sizeIndividuals;
 
- public:
-  explicit Population();
-  void InitializeInds();
-  double Iterations();
-  void NewPopulation(std::vector<std::shared_ptr<Individual>> OldPopulation);
-  void Crossingover(std::vector<std::shared_ptr<Individual>> IndSv);
-  void Mutation(std::vector<std::shared_ptr<Individual>> IndS);
-  std::shared_ptr<Individual> SearchBest();
-  std::vector<std::shared_ptr<Individual>> GetPopulation();
+public:
+    explicit Population();
 
+    void InitializeInds();
+
+    double Iterations();
+
+    void NewPopulation();
+
+    void Crossingover();
+
+    void Mutation();
+
+    std::shared_ptr<Individual> SearchBest();
+
+    std::vector<std::shared_ptr<Individual>> GetPopulation();
 };
 
 class IRule {
- public:
-  virtual ~IRule() = default;
-  virtual void ForWordMutation(Individual Ind) = 0;
-  virtual int CalcRule(Individual Ind) = 0;
-  virtual std::vector<int> AllTimes() = 0;
+public:
+    virtual ~IRule() = default;
+
+    virtual void ForWordMutation(std::shared_ptr<Individual>& Ind) = 0;
+
+    virtual int CalcRule(std::shared_ptr<Individual>& Ind) = 0;
+
+    virtual void RandomMutation(std::shared_ptr<Individual>& Ind) = 0;
 };
 
-class SameAudSameTime : IRule {
-  int R;
+class SameAudSameTime : public IRule {
+    int R;
+    std::vector<Block> Blocks;
+    std::vector<int> AllTimes;
+    std::vector<int> AuditoryType1;
+    std::vector<int> AuditoryType2;
 
- public:
-  void ForWordMutation(Individual Ind) override;
-  int CalcRule(Individual Ind) override;
-  std::vector<int> AllTimes() override;
-  std::vector<int> Blocks();
-  std::vector<int> AuditoryType1();
-  std::vector<int> AuditoryType2();
-  int GetR();
+public:
+    explicit SameAudSameTime();
+
+    void ForWordMutation(std::shared_ptr<Individual>& Ind) override;
+
+    int CalcRule(std::shared_ptr<Individual>& Ind) override;
+
+    void RandomMutation(std::shared_ptr<Individual>& Ind) override;
+
+    void SetR();
+
+    int GetR() const;
 };
 
-class SameGroupMoreBlock : IRule {
-  int R;
+class SameGroupMoreBlock : public IRule {
+    int R;
+    std::vector<Block> Blocks;
+    std::vector<int> AllTimes;
 
- public:
-  void ForWordMutation(Individual Ind) override;
-  int CalcRule(Individual Ind) override;
-  std::vector<int> AllTimes() override;
-  std::unordered_map<int, int[]> DirGroup();
-  int GetR();
+public:
+    explicit SameGroupMoreBlock();
+
+    void ForWordMutation(std::shared_ptr<Individual>& Ind) override;
+
+    int CalcRule(std::shared_ptr<Individual>& Ind) override;
+
+    void RandomMutation(std::shared_ptr<Individual>& Ind) override;
+
+    void SetR();
+
+    int GetR() const;
 };
 
-class SameLecMoreBlock : IRule {
-  int R;
+class SameLecMoreBlock : public IRule {
+    int R;
+    std::vector<Block> Blocks;
+    std::vector<int> AllTimes;
 
- public:
-  void ForWordMutation(Individual Ind) override;
-  int CalcRule(Individual Ind) override;
-  std::vector<int> AllTimes() override;
-  std::unordered_map<int, int[]> DirLec();
-  int GetR();
+public:
+    explicit SameLecMoreBlock();
+
+    void ForWordMutation(std::shared_ptr<Individual>& Ind) override;
+
+    int CalcRule(std::shared_ptr<Individual>& Ind) override;
+
+    void RandomMutation(std::shared_ptr<Individual>& Ind) override;
+
+    void SetR();
+
+    int GetR() const;
 };
 
 class AllRules {
-  std::vector<IRule> Rules;
-  std::vector<int> Penalty;
+    std::vector<std::shared_ptr<IRule>> Rules;
+    std::vector<int> Penalty;
 
- public:
-  void GetRules();
-  double calcFitness(Individual Inds);
-  int GetPenalty(int cnt);
+public:
+    void SetRules();
+
+    int calcFitness(std::shared_ptr<Individual>& Ind);
+
+    void SetPenalty(int cnt);
+
+    std::vector<int>& GetPenaltyList();
+
+    void ForWordMutation(std::shared_ptr<Individual>& Ind);
+
+    void RandomMutation(std::shared_ptr<Individual>& Ind);
 };
 
 #endif  // UCTP_GENETIC_ALGORITHM_HPP
