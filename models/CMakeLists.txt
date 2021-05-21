@@ -15,8 +15,7 @@ add_library(model SHARED
         ${model_srcs}
         ${model_sqlobjects_headers}
         ${model_mongoobjects_headers}
-        utility/ThreadPool.hpp
-        utility/ThreadPoolImpl.hpp utility/ThreadPool.cpp)
+        )
 target_include_directories(model PUBLIC
         ${Qt5Core_INCLUDE_DIRS}
         ${Qt5Network_INCLUDE_DIRS}
