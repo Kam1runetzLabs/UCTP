@@ -41,9 +41,9 @@
     <td><%= subjects[i].subjectName() %></td>
     <td><%= subjects[i].subjectType() %></td>
     <td>
-      <%== linkTo("Show", urla("show", i.id())) %>
-      <%== linkTo("Edit", urla("save", i.id())) %>
-      <%== linkTo("Remove", urla("remove", i.id()), Tf::Post, "confirm('Are you sure?')") %>
+      <%== linkTo("Show", urla("show", timetableList[i].id())) %>
+      <%== linkTo("Edit", urla("save", timetableList[i].id())) %>
+      <%== linkTo("Remove", urla("remove", timetableList[i].id()), Tf::Post, "confirm('Are you sure?')") %>
     </td>
   </tr>
 <% } %>

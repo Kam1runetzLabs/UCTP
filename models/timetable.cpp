@@ -1,9 +1,9 @@
 #include "timetable.h"
 
+#include <QThreadPool>
 #include <TreeFrogModel>
 
 #include "sqlobjects/timetableobject.h"
-#include "utility/ThreadPool.hpp"
 
 Timetable::Timetable() : TAbstractModel(), d(new TimetableObject()) {
   // set the initial parameters
@@ -74,25 +74,19 @@ Timetable::Status Timetable::calculate(const QList<Block> &blocks,
   // todo arguments validation
   Status status;
   /*
-   * if (args invalid) status = error;*/
+   * if (args invalid) status = error;
+   * return status;
+   * */
 
-  static ThreadPool threadPool(ThreadPool::HardwareConcurrency());
-
-  auto generateTask = [&blocks, &classrooms, &timeSlots] {
-    return generateTimetable(blocks, classrooms, timeSlots);
-  };
-
-  auto callback = [&result](QList<TimetableObject> &objects) {
+  auto task = [&blocks, &classrooms, &timeSlots, &result] {
+    auto objects = generateTimetable(blocks, classrooms, timeSlots);
     for (auto &obj : objects) {
       if (obj.create()) {
         result.append(Timetable(obj));
       }
     }
   };
-
-  threadPool.Execute(
-      ThreadPool::Task(generateTask, blocks, classrooms, timeSlots),
-      ThreadPool::Callback(callback));
+  QThreadPool::globalInstance()->start(task);
   return status;
 }
 
