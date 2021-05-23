@@ -36,6 +36,7 @@ target_link_libraries(model
         Qt5::Concurrent
         ${TreeFrog_LIB}
         helper
+        algorithm
         )
 set_target_properties(model PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib
@@ -47,4 +48,5 @@ set_target_properties(model PROPERTIES
         )
 add_dependencies(model
         helper
+        algorithm
         )

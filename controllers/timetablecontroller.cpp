@@ -47,12 +47,13 @@ void TimetableController::create() {
 
     case Tf::Post: {
       auto blockList = Block::getAll();
+      auto subjectList = Subject::getAll();
       auto classroomList = Classroom::getAll();
       auto timeSlotList = TimeSlot::getAll();
 
       QList<Timetable> timetableList;
-      auto status = Timetable::calculate(blockList, classroomList, timeSlotList,
-                                         timetableList);
+      auto status = Timetable::calculate(blockList, subjectList, classroomList,
+                                         timeSlotList, timetableList);
       if (!status.ok()) {
         QString error = "unable to create timetable";
         tflash(error);

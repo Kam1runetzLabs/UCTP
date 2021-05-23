@@ -2,6 +2,7 @@
 
 #include <TreeFrogModel>
 
+#include "../src/algorithm/include/genetic_algorithm.hpp"
 #include "sqlobjects/timetableobject.h"
 
 Timetable::Timetable() : TAbstractModel(), d(new TimetableObject()) {
@@ -68,9 +69,40 @@ Timetable::Status generateTimetable(const QList<Block> &blocks,
 }
 
 Timetable::Status Timetable::calculate(const QList<Block> &blocks,
+                                       const QList<Subject> &subjects,
                                        const QList<Classroom> &classrooms,
                                        const QList<TimeSlot> &timeSlots,
                                        QList<Timetable> &result) {
+  std::vector<alg::Block> blocksIds;
+  std::vector<int> classroomsType1Ids;
+  std::vector<int> classroomsType2Ids;
+  std::vector<int> timeSlotsIds;
+
+  std::map<int, int> subjectTypeMap;
+  for (const Subject& subject : subjects) {
+    subjectTypeMap[subject.id()] = subject.subjectType();
+  }
+
+  for (const Block& block : blocks) {
+    blocksIds.emplace_back(block.groupId(),
+                           block.subjectId(),
+                           subjectTypeMap[block.subjectId()],
+                           block.teacherId());
+  }
+  for (const Classroom& classroom : classrooms) {
+    if (classroom.classroomType() == 1)
+      classroomsType1Ids.push_back(classroom.id());
+    else if (classroom.classroomType() == 2)
+      classroomsType2Ids.push_back(classroom.id());
+  }
+  for (const TimeSlot& timeSlot : timeSlots) {
+    timeSlotsIds.push_back(timeSlot.id());
+  }
+
+  alg::Population myPopulation(blocksIds, classroomsType1Ids,
+                               classroomsType2Ids, timeSlotsIds);
+  std::shared_ptr<alg::Individual> bestInd = myPopulation.Iterations();
+
   QList<TimetableObject> objects;
   auto status = generateTimetable(blocks, classrooms, timeSlots, objects);
   for (TimetableObject obj : objects) {

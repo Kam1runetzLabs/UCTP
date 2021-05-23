@@ -11,6 +11,7 @@
 #include "block.h"
 #include "classroom.h"
 #include "timeslot.h"
+#include "subject.h"
 
 class TModelObject;
 class TimetableObject;
@@ -52,6 +53,7 @@ class T_MODEL_EXPORT Timetable : public TAbstractModel {
   };
 
   static Status calculate(const QList<Block> &blocks,
+                          const QList<Subject> &subjects,
                           const QList<Classroom> &classrooms,
                           const QList<TimeSlot> &timeSlots,
                           QList<Timetable> &result);

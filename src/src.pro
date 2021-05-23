@@ -1,0 +1,2 @@
+TARGET = algorithm
+TEMPLATE = lib
