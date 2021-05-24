@@ -102,15 +102,25 @@ Timetable::Status Timetable::calculate(const QList<Block> &blocks,
   alg::Population myPopulation(blocksIds, classroomsType1Ids,
                                classroomsType2Ids, timeSlotsIds);
   std::shared_ptr<alg::Individual> bestInd = myPopulation.Iterations();
+  std::shared_ptr<alg::ChromosomeAuditory> auditoriesChromosome = bestInd->GetAuditoryChromosome();
+  std::shared_ptr<alg::ChromosomeTime> timesChromosome = bestInd->GetTimeChromosome();
+  std::vector<alg::Gen> auditories = auditoriesChromosome->GetAuditoryGenes();
+  std::vector<alg::Gen> times = timesChromosome->GetTimeGenes();
 
   QList<TimetableObject> objects;
-  auto status = generateTimetable(blocks, classrooms, timeSlots, objects);
+  for (int i = 0; i < blocks.length(); i++) {
+    TimetableObject obj;
+    obj.classroomId = auditories[i].GetValue();
+    obj.timeId = times[i].GetValue();
+    obj.blockId = blocks[i].id();
+  }
+
   for (TimetableObject obj : objects) {
     if (obj.create()) {
       result.append(Timetable(obj));
     }
   }
-  return status;
+  return Timetable::Status{};
 }
 
 Timetable Timetable::get(int id) {
