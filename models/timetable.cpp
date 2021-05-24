@@ -107,15 +107,11 @@ Timetable::Status Timetable::calculate(const QList<Block> &blocks,
   std::vector<alg::Gen> auditories = auditoriesChromosome->GetAuditoryGenes();
   std::vector<alg::Gen> times = timesChromosome->GetTimeGenes();
 
-  QList<TimetableObject> objects;
   for (int i = 0; i < blocks.length(); i++) {
-    TimetableObject obj;
+    TimetableObject obj = TimetableObject();
     obj.classroomId = auditories[i].GetValue();
     obj.timeId = times[i].GetValue();
     obj.blockId = blocks[i].id();
-  }
-
-  for (TimetableObject obj : objects) {
     if (obj.create()) {
       result.append(Timetable(obj));
     }
