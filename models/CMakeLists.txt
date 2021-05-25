@@ -34,7 +34,7 @@ target_include_directories(model PUBLIC
         ${PROJECT_SOURCE_DIR}/models
         ${PROJECT_SOURCE_DIR}/models/sqlobjects
         ${PROJECT_SOURCE_DIR}/models/mongoobjects
-        ${source_dir}/include
+        ${source_dir}/src/include
         )
 target_link_libraries(model
         Qt5::Core
