@@ -49,10 +49,10 @@ void TimetableController::create() {
       auto blockList = Block::getAll();
       auto classroomList = Classroom::getAll();
       auto timeSlotList = TimeSlot::getAll();
-      auto subjects = Subject::getAll();
+      auto subjectsList = Subject::getAll();
 
       QList<Timetable> timetableList;
-      auto status = Timetable::calculate(blockList, subjects, classroomList,
+      auto status = Timetable::calculate(blockList, subjectsList, classroomList,
                                          timeSlotList, timetableList);
       if (!status.ok()) {
         QString error = status.error();
