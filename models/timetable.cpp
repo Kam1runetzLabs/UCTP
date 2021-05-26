@@ -85,9 +85,9 @@ Timetable::Status Timetable::calculate(const QList<Block> &blocks,
                              block.teacherId());
     }
     for (auto &classroom : classrooms) {
-      if (classroom.classroomType() == 1)
+      if (classroom.classroomType() == 0)
         classroomsType1Ids.push_back(classroom.id());
-      else if (classroom.classroomType() == 2)
+      else if (classroom.classroomType() == 1)
         classroomsType2Ids.push_back(classroom.id());
     }
     for (auto &timeSlot : timeSlots) {
