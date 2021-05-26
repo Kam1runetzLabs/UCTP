@@ -115,7 +115,8 @@ Timetable::Status Timetable::calculate(const QList<Block> &blocks,
     }
   };
   // todo temporary solution
-  QThreadPool::globalInstance()->start(task);
+  // QThreadPool::globalInstance()->start(task);
+  task();
   // todo handling status and email notification
   return status;
 }
