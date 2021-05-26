@@ -96,7 +96,7 @@ Timetable::Status Timetable::calculate(const QList<Block> &blocks,
 
     alg::Population myPopulation(blocksIds, classroomsType1Ids,
                                  classroomsType2Ids, timeSlotsIds);
-    std::shared_ptr<alg::Individual> bestInd = myPopulation.Iterations();
+    std::shared_ptr<alg::Individual> bestInd = myPopulation.Iterations(960, 16);
     std::shared_ptr<alg::ChromosomeAuditory> auditoriesChromosome =
         bestInd->GetAuditoryChromosome();
     std::shared_ptr<alg::ChromosomeTime> timesChromosome =
