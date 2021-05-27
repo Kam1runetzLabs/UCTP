@@ -16,12 +16,13 @@
 <h1>Listing Timetable</h1>
 
 <%== linkTo("Create a new Timetable", urla("create")) %><br />
+<%== linkTo("Remove Timetable", urla("removeAll"), Tf::Post, "confirm('Are you sure?')") %><br />
 <br />
 <table border="1" cellpadding="5" style="border: 1px #d0d0d0 solid; border-collapse: collapse;">
   <tr>
     <th>ID</th>
-    <th>ClassroomId</th>
     <th>TimeId</th>
+    <th>ClassroomId</th>
     <th>BlockId</th>
   </tr>
 <% tfetch(QList<Timetable>, timetableList); %>
@@ -30,20 +31,14 @@
 <% tfetch(QList<Group>, groups); %>
 <% tfetch(QList<Teacher>, teachers); %>
 <% tfetch(QList<Subject>, subjects); %>
-<% for (int i = 0; i != timetableList.size(); ++i) { %>
+<% foreach (Timetable tt, timetableList) { %>
   <tr>
-    <td><%= timetableList[i].id() %></td>
-    <td><%= timeSlots[i].timeSlotName(); %></td>
-    <td><%= classrooms[i].classroomName() %></td>
-    <td><%= classrooms[i].classroomType() %></td>
-    <td><%= groups[i].groupName() %></td>
-    <td><%= teachers[i].teacherName() %></td>
-    <td><%= subjects[i].subjectName() %></td>
-    <td><%= subjects[i].subjectType() %></td>
+    <td><%= tt.id() %></td>
+    <td><%= tt.timeId() %></td>
+    <td><%= tt.classroomId() %></td>
+    <td><%= tt.blockId() %></td>
     <td>
-      <%== linkTo("Show", urla("show", timetableList[i].id())) %>
-      <%== linkTo("Edit", urla("save", timetableList[i].id())) %>
-      <%== linkTo("Remove", urla("remove", timetableList[i].id()), Tf::Post, "confirm('Are you sure?')") %>
+      <%== linkTo("Show", urla("show", tt.id())) %>
     </td>
   </tr>
 <% } %>
