@@ -80,7 +80,7 @@ Timetable::Status Timetable::calculate(const QList<Block> &blocks,
     }
 
     for (auto &block : blocks) {
-      blocksIds.emplace_back(block.groupId(), block.subjectId(),
+      blocksIds.emplace_back(block.id(), block.groupId(), block.subjectId(),
                              subjectTypeMap[block.subjectId()],
                              block.teacherId());
     }
@@ -96,19 +96,15 @@ Timetable::Status Timetable::calculate(const QList<Block> &blocks,
 
     alg::Population myPopulation(blocksIds, classroomsType1Ids,
                                  classroomsType2Ids, timeSlotsIds);
-    std::shared_ptr<alg::Individual> bestInd = myPopulation.Iterations(960, 16);
-    std::shared_ptr<alg::ChromosomeAuditory> auditoriesChromosome =
-        bestInd->GetAuditoryChromosome();
-    std::shared_ptr<alg::ChromosomeTime> timesChromosome =
-        bestInd->GetTimeChromosome();
-    std::vector<alg::Gen> auditories = auditoriesChromosome->GetAuditoryGenes();
-    std::vector<alg::Gen> times = timesChromosome->GetTimeGenes();
+    std::shared_ptr<alg::Individual> bestInd = myPopulation.Iterations(500, 10);
+    std::vector<alg::Gen> auditories = bestInd->GetAuditoryChromosome()->GetAuditoryGenes();
+    std::vector<alg::Gen> times = bestInd->GetTimeChromosome()->GetTimeGenes();
 
     for (int i = 0; i < blocks.length(); i++) {
       TimetableObject obj = TimetableObject();
       obj.classroomId = auditories[i].GetValue();
       obj.timeId = times[i].GetValue();
-      obj.blockId = blocks[i].id();
+      obj.blockId = blocksIds[i].blockId;
       if (obj.create()) {
         result.append(Timetable(obj));
       }
