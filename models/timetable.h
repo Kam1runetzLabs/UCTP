@@ -74,7 +74,8 @@ class T_MODEL_EXPORT Timetable : public TAbstractModel {
                           const QList<Subject> &subjects,
                           const QList<Classroom> &classrooms,
                           const QList<TimeSlot> &timeSlots,
-                          QList<Timetable> &result);
+                          QList<Timetable> &result,
+                          int population, int iterations);
 
   static Timetable get(int id);
 

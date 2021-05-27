@@ -46,6 +46,10 @@ void TimetableController::create() {
       break;
 
     case Tf::Post: {
+      auto params = httpRequest().formItems("params");
+      int population = params.take("population").toInt();
+      int iterations = params.take("iterations").toInt();
+
       auto blockList = Block::getAll();
       auto classroomList = Classroom::getAll();
       auto timeSlotList = TimeSlot::getAll();
@@ -53,7 +57,8 @@ void TimetableController::create() {
 
       QList<Timetable> timetableList;
       auto status = Timetable::calculate(blockList, subjectsList, classroomList,
-                                         timeSlotList, timetableList);
+                                         timeSlotList, timetableList,
+                                         population, iterations);
       if (!status.ok()) {
         QString error = status.error();
         tflash(error);

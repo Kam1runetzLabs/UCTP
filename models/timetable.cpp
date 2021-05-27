@@ -65,10 +65,11 @@ Timetable::Status Timetable::calculate(const QList<Block> &blocks,
                                        const QList<Subject> &subjects,
                                        const QList<Classroom> &classrooms,
                                        const QList<TimeSlot> &timeSlots,
-                                       QList<Timetable> &result) {
+                                       QList<Timetable> &result,
+                                       int population, int iterations) {
   // todo args validation
   Status status;
-  auto task = [&blocks, &subjects, &classrooms, &timeSlots, &result]() -> void {
+  auto task = [&blocks, &subjects, &classrooms, &timeSlots, &result, population, iterations]() -> void {
     std::vector<alg::Block> blocksIds;
     std::vector<int> classroomsType1Ids;
     std::vector<int> classroomsType2Ids;
@@ -96,7 +97,7 @@ Timetable::Status Timetable::calculate(const QList<Block> &blocks,
 
     alg::Population myPopulation(blocksIds, classroomsType1Ids,
                                  classroomsType2Ids, timeSlotsIds);
-    std::shared_ptr<alg::Individual> bestInd = myPopulation.Iterations(960, 16);
+    std::shared_ptr<alg::Individual> bestInd = myPopulation.Iterations(population, iterations);
     std::vector<alg::Gen> auditories = bestInd->GetAuditoryChromosome()->GetAuditoryGenes();
     std::vector<alg::Gen> times = bestInd->GetTimeChromosome()->GetTimeGenes();
 

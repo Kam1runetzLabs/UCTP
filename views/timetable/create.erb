@@ -13,7 +13,12 @@
 <h1>New Timetable</h1>
 
 <%== formTag(urla("create"), Tf::Post) %>
-  <p>Тут будет ввод параметров для алгоритма</p>
+  <p>
+      <label>Численность популяции<br /><input name="params[population]" value="" type="number" min="10" max="1000" /></label>
+  </p>
+  <p>
+    <label>Количество итераций<br /><input name="params[iterations]" value="" type="number" min="1" max="16" /></label>
+  </p>
   <p>
     <input type="submit" value="Create" />
   </p>
