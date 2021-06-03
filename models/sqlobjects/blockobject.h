@@ -9,7 +9,6 @@ class T_MODEL_EXPORT BlockObject : public TSqlObject, public QSharedData
 {
 public:
     int id {0};
-    int blockCount {0};
     int teacherId {0};
     int subjectId {0};
     int groupId {0};
@@ -30,8 +29,6 @@ private:    /*** Don't modify below this line ***/
     Q_OBJECT
     Q_PROPERTY(int id READ getid WRITE setid)
     T_DEFINE_PROPERTY(int, id)
-    Q_PROPERTY(int blockCount READ getblockCount WRITE setblockCount)
-    T_DEFINE_PROPERTY(int, blockCount)
     Q_PROPERTY(int teacherId READ getteacherId WRITE setteacherId)
     T_DEFINE_PROPERTY(int, teacherId)
     Q_PROPERTY(int subjectId READ getsubjectId WRITE setsubjectId)

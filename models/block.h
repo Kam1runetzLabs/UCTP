@@ -20,8 +20,6 @@ class T_MODEL_EXPORT Block : public TAbstractModel {
   ~Block();
 
   int id() const;
-  int blockCount() const;
-  void setBlockCount(int blockCount);
   int teacherId() const;
   void setTeacherId(int teacherId);
   int subjectId() const;
@@ -35,7 +33,7 @@ class T_MODEL_EXPORT Block : public TAbstractModel {
   bool save() override { return TAbstractModel::save(); }
   bool remove() override { return TAbstractModel::remove(); }
 
-  static Block create(int blockCount, int teacherId, int subjectId,
+  static Block create(int teacherId, int subjectId,
                       int groupId);
   static Block create(const QVariantMap &values);
   static Block get(int id);

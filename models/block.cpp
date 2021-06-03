@@ -20,10 +20,6 @@ Block::~Block() {
 
 int Block::id() const { return d->id; }
 
-int Block::blockCount() const { return d->blockCount; }
-
-void Block::setBlockCount(int blockCount) { d->blockCount = blockCount; }
-
 int Block::teacherId() const { return d->teacherId; }
 
 void Block::setTeacherId(int teacherId) { d->teacherId = teacherId; }
@@ -41,9 +37,8 @@ Block &Block::operator=(const Block &other) {
   return *this;
 }
 
-Block Block::create(int blockCount, int teacherId, int subjectId, int groupId) {
+Block Block::create(int teacherId, int subjectId, int groupId) {
   BlockObject obj;
-  obj.blockCount = blockCount;
   obj.teacherId = teacherId;
   obj.subjectId = subjectId;
   obj.groupId = groupId;
