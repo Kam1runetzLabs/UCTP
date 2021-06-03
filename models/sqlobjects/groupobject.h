@@ -18,7 +18,7 @@ public:
 
     int primaryKeyIndex() const override { return Id; }
     int autoValueIndex() const override { return Id; }
-    QString tableName() const override { return QStringLiteral("group"); }
+    QString tableName() const override { return QStringLiteral("studyGroup"); }
 
 private:    /*** Don't modify below this line ***/
     Q_OBJECT
