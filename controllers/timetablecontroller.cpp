@@ -46,6 +46,31 @@ void TimetableController::create() {
       break;
 
     case Tf::Post: {
+      QSystemSemaphore semaphore("tt", 1);
+      semaphore.acquire();
+#ifndef Q_OS_WIN32
+      // в linux/unix разделяемая память не освобождается при аварийном завершении приложения,
+      // поэтому необходимо избавиться от данного мусора
+      QSharedMemory nix_fix_shared_memory("tt2");
+      if(nix_fix_shared_memory.attach()){
+        nix_fix_shared_memory.detach();
+      }
+#endif
+      QSharedMemory sharedMemory("tt2");
+      bool is_running;
+      if (sharedMemory.attach())
+        is_running = true;
+      else {
+        sharedMemory.create(1);
+        is_running = false;
+      }
+      semaphore.release();
+
+      if(is_running){
+        redirect(urla("index"));
+        break;
+      }
+
       auto params = httpRequest().formItems("params");
       int population = params.take("population").toInt();
       int iterations = params.take("iterations").toInt();
