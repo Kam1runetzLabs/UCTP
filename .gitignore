@@ -548,3 +548,4 @@ venv/
 lib/
 tmp/
 /.env
+/db-data
