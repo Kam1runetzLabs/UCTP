@@ -1,0 +1,7 @@
+.github/
+.idea/
+cmake-build-debug/
+build/
+lib/
+log/
+Makefile

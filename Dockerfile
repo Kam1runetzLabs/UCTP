@@ -12,4 +12,4 @@ RUN mkdir build
 RUN cd build && cmake ../
 RUN cd build && make
 
-CMD treefrog -e dev
+CMD treefrog -e product
